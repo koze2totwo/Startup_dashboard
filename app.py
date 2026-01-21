@@ -47,23 +47,36 @@ def load_overall_analysis():
     ax3.plot(temp_df['x_axis'], temp_df['amount'])
     plt.xticks(rotation=60)
  
-#import
-df = pd.read_csv("startup_cleaned.csv")
 
-with col2:
-    verical_series = df[df['investors'].str.contains(investor)].groupby('vertical')['amount'].sum()
+    st.pyplot(fig3)
 
-    st.subheader('Sectors invested in')
-    fig1, ax1 = plt.subplots()
-    ax1.pie(verical_series,labels=verical_series.index,autopct="%0.01f%%")
 
-if op == 'Overall analysis':
-  
-    st.title("Overall analysis")
-elif op == 'Startup':
-    st.sidebar.selectbox('Select startup',set(df['startup'].str.split(',').sum()))
-    btn1=st.sidebar.button("Find startup details")
-    st.title("Startup overview")
+
+def load_investor_details(investor):
+    st.title(investor)
+    # load the recent 5 investments of the investor
+    last5_df = df[df['investors'].str.contains(investor)].head()[['date', 'startup', 'vertical', 'city', 'round', 'amount']]
+    st.subheader('Most Recent Investments')
+    st.dataframe(last5_df)
+
+    col1, col2 = st.columns(2)
+    with col1:
+        # biggest investments
+        big_series = df[df['investors'].str.contains(investor)].groupby('startup')['amount'].sum().sort_values(ascending=False).head()
+        st.subheader('Biggest Investments')
+        fig, ax = plt.subplots()
+        ax.bar(big_series.index,big_series.values)
+
+        st.pyplot(fig)
+
+    with col2:
+        verical_series = df[df['investors'].str.contains(investor)].groupby('vertical')['amount'].sum()
+
+        st.subheader('Sectors invested in')
+        fig1, ax1 = plt.subplots()
+        ax1.pie(verical_series,labels=verical_series.index,autopct="%0.01f%%")
+
+        st.pyplot(fig1)
 
     print(df.info())
 
