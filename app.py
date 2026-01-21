@@ -26,6 +26,6 @@ elif op == 'Startup':
     st.title("Startup overview")
 
 if op == 'Investor':
-    st.sidebar.selectbox('Select investor',sorted(df['Investors Name'].unique().tolist()))
+    st.sidebar.selectbox('Select investor',sorted(set(df['investors'].str.split(',').sum())))
     btn1=st.sidebar.button("Find Investor details")
     st.title("Investor overview")
