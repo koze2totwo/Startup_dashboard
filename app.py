@@ -2,10 +2,10 @@ import streamlit as st
 import pandas as pd
  
 #import
-df = pd.read_csv("startup_funding.csv")
+df = pd.read_csv("startup_cleaned.csv")
 
 #data_cleaning
-df['Investors Name']=df["Investors Name"].fillna("Undisclosed")
+df['investors']=df["investors"].fillna("Undisclosed")
 
 
 
@@ -21,7 +21,7 @@ if op == 'Overall analysis':
   
     st.title("Overall analysis")
 elif op == 'Startup':
-    st.sidebar.selectbox('Select startup',sorted(df['Startup Name'].unique().tolist()))
+    st.sidebar.selectbox('Select startup',sorted(df['startup'].unique().tolist()))
     btn1=st.sidebar.button("Find startup details")
     st.title("Startup overview")
 

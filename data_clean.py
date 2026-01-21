@@ -45,10 +45,12 @@ df['amount'] = df['amount'].astype('float')
 
 #usd to inr
 df['amount'] = df['amount'].apply(to_inr)
-#change str date to datetime type using coerce to ignore invalid strings
-df['date'] = pd.to_datetime(df['date'],errors='coerce')
+#change str date to datetime type using coerce to ignore invalid strings, use formate make pandas convert date properly
+df['date'] = pd.to_datetime(df['date'], format='%d/%m/%Y',errors='coerce')
+print(df.shape)
 
 #drop na rows
 df = df.dropna(subset=['date','startup','vertical','city','investors','round','amount'])
+
 #export file 
 df.to_csv('startup_cleaned.csv',index=False)
